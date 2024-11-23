@@ -3,9 +3,10 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+import allure
 
 
-
+@allure.title("TestCase#1 to Search a valid product!")
 def test_search_for_valid_product():
     driver = webdriver.Chrome()
     driver.maximize_window()
@@ -17,6 +18,7 @@ def test_search_for_valid_product():
 
     driver.quit()
 
+@allure.title("TestCase#1 to Search a Invalid product!")
 def test_search_for_invalid_product():
     driver = webdriver.Chrome()
     driver.maximize_window()
@@ -32,6 +34,7 @@ def test_search_for_invalid_product():
 
     driver.quit()
 
+@allure.title("TestCase#3 to Search without entering any valid product!")
 def test_search_without_entering_any_product_input():
     driver = webdriver.Chrome()
     driver.maximize_window()

@@ -3,6 +3,15 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+import allure
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+user_email = os.getenv("user_email")
+user_pwd = os.getenv("user_pwd")
+user_phone = os.getenv('user_phone')
 
 
 def generate_invalid_email_with_time_stamp():
@@ -11,6 +20,9 @@ def generate_invalid_email_with_time_stamp():
     today = datetime.now().strftime("%d%m%Y%H%M%S")
     invalid_email = "test_software_"+str(today)+"@gmail.com"
     return invalid_email
+
+@allure.title("TestCase#1 to register with mandary fields!")
+@allure.description("Filling all the mandatory fields")
 def test_register_with_mandatory_fields():
     print("1. Running with mandatory fields")
     driver = webdriver.Chrome()
@@ -24,11 +36,11 @@ def test_register_with_mandatory_fields():
     driver.find_element(By.XPATH,"//input[@name='firstname']").send_keys("Balraj")
     driver.find_element(By.XPATH, "//input[@name='lastname']").send_keys("Ponnuswamy")
     invalid_email = generate_invalid_email_with_time_stamp()
-    password = "Balraj@2020"
+
     driver.find_element(By.XPATH, "//input[@name='email']").send_keys(invalid_email)
-    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys("9952481537")
-    driver.find_element(By.XPATH, "//input[@name='password']").send_keys(password)
-    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys(password)
+    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys(user_phone)
+    driver.find_element(By.XPATH, "//input[@name='password']").send_keys(user_pwd)
+    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys(user_pwd)
     driver.find_element(By.XPATH,"//input[@name='newsletter' and @value = '1']").click()
     time.sleep(1)
     driver.find_element(By.XPATH, "//input[@name='agree' and @value = '1']").click()
@@ -42,6 +54,8 @@ def test_register_with_mandatory_fields():
     time.sleep(3)
     driver.quit()
 
+@allure.title("TestCase#2 to register with new email/passwords!")
+@allure.description("Filling all the mandatory fields with new email/passwords")
 def test_register_with_new_email_password():
     print("2. Running with new email/password")
     driver = webdriver.Chrome()
@@ -55,11 +69,11 @@ def test_register_with_new_email_password():
     driver.find_element(By.XPATH,"//input[@name='firstname']").send_keys("Balraj")
     driver.find_element(By.XPATH, "//input[@name='lastname']").send_keys("Ponnuswamy")
     invalid_email = generate_invalid_email_with_time_stamp()
-    password = "Balraj@2020"
+
     driver.find_element(By.XPATH, "//input[@name='email']").send_keys(invalid_email)
-    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys("9952481537")
-    driver.find_element(By.XPATH, "//input[@name='password']").send_keys(password)
-    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys(password)
+    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys(user_phone)
+    driver.find_element(By.XPATH, "//input[@name='password']").send_keys(user_pwd)
+    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys(user_pwd)
     driver.find_element(By.XPATH,"//input[@name='newsletter' and @value = '1']").click()
     time.sleep(1)
     driver.find_element(By.XPATH, "//input[@name='agree' and @value = '1']").click()
@@ -73,7 +87,8 @@ def test_register_with_new_email_password():
     time.sleep(3)
     driver.quit()
 
-
+@allure.title("TestCase#3 to register with existing email/passwords!")
+@allure.description("Filling  with existing email/passwords")
 def test_register_with_existing_email():
     print("3. Running with existing email/password")
     driver = webdriver.Chrome()
@@ -86,10 +101,10 @@ def test_register_with_existing_email():
     time.sleep(3)
     driver.find_element(By.XPATH,"//input[@name='firstname']").send_keys("Balraj")
     driver.find_element(By.XPATH, "//input[@name='lastname']").send_keys("Ponnuswamy")
-    driver.find_element(By.XPATH, "//input[@name='email']").send_keys("balrajswamy@gmail.com")
-    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys("9952481537")
-    driver.find_element(By.XPATH, "//input[@name='password']").send_keys("Balraj@2020")
-    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys("Balraj@2020")
+    driver.find_element(By.XPATH, "//input[@name='email']").send_keys(user_email)
+    driver.find_element(By.XPATH, "//input[@name='telephone']").send_keys(user_phone)
+    driver.find_element(By.XPATH, "//input[@name='password']").send_keys(user_pwd)
+    driver.find_element(By.XPATH, "//input[@name='confirm']").send_keys(user_pwd)
     driver.find_element(By.XPATH,"//input[@name='newsletter' and @value = '1']").click()
     time.sleep(1)
     driver.find_element(By.XPATH, "//input[@name='agree' and @value = '1']").click()
@@ -103,7 +118,8 @@ def test_register_with_existing_email():
     time.sleep(3)
     driver.quit()
 
-
+@allure.title("TestCase#4 to without entering any fields!")
+@allure.description("Leaving as empty at fields and validating the input fields")
 def test_register_without_entering_any_fields():
     print("4. Running with existing email/password")
     driver = webdriver.Chrome()

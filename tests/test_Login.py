@@ -3,8 +3,17 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pytest
+import allure
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+user_email = os.getenv("user_email")
+user_pwd = os.getenv("user_pwd")
 
 
+@allure.title("TestCase#1 to Test a Login with Valid Credentials")
 def test_Login_with_valid_credentials():
     print("1. Running with valid email/password!")
     driver = webdriver.Chrome()
@@ -15,10 +24,9 @@ def test_Login_with_valid_credentials():
     time.sleep(1)
     driver.find_element(By.LINK_TEXT, "Login").click()
     time.sleep(1)
-
-    driver.find_element(By.XPATH,"//input[@id='input-email']").send_keys("balrajswamy@gmail.com")
+    driver.find_element(By.XPATH,"//input[@id='input-email']").send_keys(user_email)
     time.sleep(1)
-    driver.find_element(By.XPATH,"//input[@id='input-password']").send_keys("Balraj@2020")
+    driver.find_element(By.XPATH,"//input[@id='input-password']").send_keys(user_pwd)
     time.sleep(1)
     driver.find_element(By.XPATH,"//input[@value='Login']").click()
     time.sleep(1)
@@ -32,7 +40,7 @@ def generate_invalid_email_with_time_stamp():
     invalid_email = "test_software_"+str(today)+"@gmail.com"
     return invalid_email
 
-
+@allure.title("TestCase#2 to Test a Login with InValid email and Valid password Credentials")
 def test_login_invalid_email_with_valid_password():
     print("2. Running with invalid_email_valid_password!")
     driver = webdriver.Chrome()
@@ -48,7 +56,7 @@ def test_login_invalid_email_with_valid_password():
 
     driver.find_element(By.XPATH, "//input[@id='input-email']").send_keys(invalid_email)
     time.sleep(1)
-    driver.find_element(By.XPATH, "//input[@id='input-password']").send_keys("Balraj@2020")
+    driver.find_element(By.XPATH, "//input[@id='input-password']").send_keys(user_pwd)
     time.sleep(1)
     driver.find_element(By.XPATH, "//input[@value='Login']").click()
     time.sleep(3)
@@ -59,7 +67,7 @@ def test_login_invalid_email_with_valid_password():
     time.sleep(1)
     driver.quit()
 
-
+@allure.title("TestCase#2 to Test a Login with Valid email with invalid password Credentials")
 def test_login_valid_email_with_invalid_password():
     print("3. Running with valid_email_invalid_password!")
     driver = webdriver.Chrome()
@@ -70,9 +78,9 @@ def test_login_valid_email_with_invalid_password():
     time.sleep(1)
     driver.find_element(By.LINK_TEXT, "Login").click()
     time.sleep(1)
-    driver.find_element(By.XPATH, "//input[@id='input-email']").send_keys("balrajswamy@gmail.com")
+    driver.find_element(By.XPATH, "//input[@id='input-email']").send_keys(user_email)
     time.sleep(1)
-    driver.find_element(By.XPATH, "//input[@id='input-password']").send_keys("balraj@2020")
+    driver.find_element(By.XPATH, "//input[@id='input-password']").send_keys("12345")
     time.sleep(1)
     driver.find_element(By.XPATH, "//input[@value='Login']").click()
     time.sleep(1)
@@ -83,7 +91,7 @@ def test_login_valid_email_with_invalid_password():
     time.sleep(1)
     driver.quit()
 
-
+@allure.title("TestCase#3 to Test a Login with without entering any Credentials")
 def test_login_without_entering_credentials():
     print("4. Running without entering credentials")
     driver = webdriver.Chrome()
